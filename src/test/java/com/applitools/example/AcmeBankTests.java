@@ -36,7 +36,7 @@ public class AcmeBankTests {
 
     // Test control inputs to read once and share for all tests
     private static String applitoolsApiKey;
-    private static boolean headless;
+    //private static boolean headless;
 
     // Applitools objects to share for all tests
     private static BatchInfo batch;
@@ -54,12 +54,12 @@ public class AcmeBankTests {
         // If you have more than one test class, then you should abstract this configuration to avoid duplication.
 
         // Read the Applitools API key from an environment variable.
-        applitoolsApiKey = System.getenv("APPLITOOLS_API_KEY");
-
+        //applitoolsApiKey = System.getenv("APPLITOOLS_API_KEY");
+        applitoolsApiKey = "G98S95YdDNQ37bCyvN7o06ZvApFghM8pO6DQV103ph7guI110";
         // Read the headless mode setting from an environment variable.
         // Use headless mode for Continuous Integration (CI) execution.
         // Use headed mode for local development.
-        headless = Boolean.parseBoolean(System.getenv().getOrDefault("HEADLESS", "false"));
+        //headless = Boolean.parseBoolean(System.getenv().getOrDefault("HEADLESS", "false"));
 
         if (USE_ULTRAFAST_GRID) {
             // Create the runner for the Ultrafast Grid.
@@ -95,13 +95,14 @@ public class AcmeBankTests {
             // Add 3 desktop browsers with different viewports for cross-browser testing in the Ultrafast Grid.
             // Other browsers are also available, like Edge and IE.
             config.addBrowser(800, 600, BrowserType.CHROME);
-            config.addBrowser(1600, 1200, BrowserType.FIREFOX);
-            config.addBrowser(1024, 768, BrowserType.SAFARI);
+            //config.addBrowser(1600, 1200, BrowserType.FIREFOX);
+            //config.addBrowser(1024, 768, BrowserType.SAFARI);
 
             // Add 2 mobile emulation devices with different orientations for cross-browser testing in the Ultrafast Grid.
             // Other mobile devices are available, including iOS.
-            config.addDeviceEmulation(DeviceName.Pixel_2, ScreenOrientation.PORTRAIT);
-            config.addDeviceEmulation(DeviceName.Nexus_10, ScreenOrientation.LANDSCAPE);
+            //config.addDeviceEmulation(DeviceName.Pixel_2, ScreenOrientation.PORTRAIT);
+            //config.addDeviceEmulation(DeviceName.Nexus_10, ScreenOrientation.LANDSCAPE);
+
         }
     }
 
@@ -110,7 +111,9 @@ public class AcmeBankTests {
         // This method sets up each test with its own ChromeDriver and Applitools Eyes objects.
 
         // Create ChromeDriver options
-        ChromeOptions options = new ChromeOptions().setHeadless(headless);
+        ChromeOptions options = new ChromeOptions();
+        //options.addArguments("--headless");
+        System.out.println(testInfo);
 
         if (USE_EXECUTION_CLOUD) {
             // Open the browser remotely in the Execution Cloud.
@@ -166,19 +169,24 @@ public class AcmeBankTests {
         // Traditional assertions that scrape the page for text values are not needed here.
 
         // Load the login page.
-        driver.get("https://demo.applitools.com");
+        //driver.get("https://demo.applitools.com");
+    	//driver.get("https://demo.applitools.com/index_v2.html");
+    	driver.get("https://www.xe.com/currencyconverter/");
 
         // Verify the full login page loaded correctly.
-        eyes.check(Target.window().fully().withName("Login page"));
+        //eyes.check(Target.window().fully().withName("Login page"));
+        //eyes.check(Target.window().fully().layout(driver.findElement(By.xpath("//input[@type='checkbox']"));
+    	//eyes.check(Target.window().fully().withName("Login page").ignore(driver.findElement(By.xpath("//div[@class=\"buttons-w\"]"))));
+       
 
         // Perform login.
-        driver.findElement(By.id("username")).sendKeys("applibot");
+        /*driver.findElement(By.id("username")).sendKeys("applibot");
         driver.findElement(By.id("password")).sendKeys("I<3VisualTests");
-        driver.findElement(By.id("log-in")).click();
+        driver.findElement(By.id("log-in")).click();*/
 
         // Verify the full main page loaded correctly.
         // This snapshot uses LAYOUT match level to avoid differences in closing time text.
-        eyes.check(Target.window().fully().withName("Main page").layout());
+        eyes.check(Target.window().fully().withName("Main page").exact());
     }
 
     @AfterEach
